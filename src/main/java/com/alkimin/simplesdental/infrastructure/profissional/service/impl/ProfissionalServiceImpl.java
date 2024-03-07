@@ -27,7 +27,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
     public ProfissionalRecord buscarPorId(String id) {
         var profissional = profissionalRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> {
-                    log.error("Status = error, ProfissionalService.deletar().");
+                    log.error("Status = error, ProfissionalService.buscarPorId().");
                     throw new ProfissionalNaoEncontradoException("Profissional com o ID informado não encontrado.");
                 });
 
@@ -53,7 +53,10 @@ public class ProfissionalServiceImpl implements ProfissionalService {
         log.info("Status = início, ProfissionalService.atualizar().");
 
         var profissionalAAtualizar = profissionalRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new ProfissionalNaoEncontradoException("Profissional com o ID informado não encontrado."));
+                .orElseThrow(() -> {
+                    log.error("Status = error, ProfissionalService.atualizar().");
+                    throw new ProfissionalNaoEncontradoException("Profissional com o ID informado não encontrado.");
+                });
 
         var profissionalValidado = ProfissionalValidation.validarAtualizacao(atualizarProfissionalRecord, profissionalAAtualizar );
         var profissionalSalvo = profissionalRepository.save(profissionalValidado);
