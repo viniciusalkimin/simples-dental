@@ -15,7 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -26,12 +28,15 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 
     @Override
     public ProfissionalRecord buscarPorId(String id) {
+        log.info("Status = início, ProfissionalService.buscarPorId().");
+
         var profissional = profissionalRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> {
                     log.error("Status = error, ProfissionalService.buscarPorId().");
                     throw new ProfissionalNaoEncontradoException("Profissional com o ID informado não encontrado.");
                 });
 
+        log.info("Status = fim, ProfissionalService.buscarPorId().");
         return new ProfissionalRecord(profissional);
     }
 
@@ -88,6 +93,6 @@ public class ProfissionalServiceImpl implements ProfissionalService {
         if (!Objects.isNull(fields)) {
             return ProfissionaisWithParamBuilder.execute(profissionais, fields);
         }
-        return profissionais;
+        return profissionais.stream().map(ProfissionalRecord::new).toList();
     }
 }
