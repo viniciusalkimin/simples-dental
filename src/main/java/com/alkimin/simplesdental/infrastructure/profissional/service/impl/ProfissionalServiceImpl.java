@@ -1,6 +1,7 @@
 package com.alkimin.simplesdental.infrastructure.profissional.service.impl;
 
 import com.alkimin.simplesdental.application.profissional.service.ProfissionalService;
+import com.alkimin.simplesdental.application.profissional.utils.ProfissionaisWithParamBuilder;
 import com.alkimin.simplesdental.application.profissional.validation.ProfissionalValidation;
 import com.alkimin.simplesdental.domain.profissional.Profissional;
 import com.alkimin.simplesdental.infrastructure.profissional.dto.AtualizarProfissionalRecord;
@@ -14,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -78,5 +79,15 @@ public class ProfissionalServiceImpl implements ProfissionalService {
         profissionalRepository.save(profissionalDeletar);
 
         log.info("Status = fim, ProfissionalService.deletar().");
+    }
+
+    @Override
+    public Object buscarPorParam(String q, List<String> fields) {
+        log.info("Passou buscarPorParam()");
+        var profissionais = profissionalRepository.findByParam(q);
+        if (!Objects.isNull(fields)) {
+            return ProfissionaisWithParamBuilder.execute(profissionais, fields);
+        }
+        return profissionais;
     }
 }

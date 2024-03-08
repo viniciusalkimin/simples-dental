@@ -9,12 +9,21 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/profissionais")
 public class ProfissionalController {
 
     private ProfissionalService profissionalService;
+
+    @GetMapping
+    public ResponseEntity<Object> buscarPorParam(
+            @RequestParam String q,
+            @RequestParam(required = false) List<String> fields) {
+        return ResponseEntity.ok(profissionalService.buscarPorParam(q, fields));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProfissionalRecord> buscarPorId(@PathVariable String id) {
