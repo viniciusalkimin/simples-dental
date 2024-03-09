@@ -88,11 +88,12 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 
     @Override
     public Object buscarPorParam(String q, List<String> fields) {
-        log.info("Passou buscarPorParam()");
+        log.info("Status = início, ProfissionalService.buscarPorParam().");
         var profissionais = profissionalRepository.findByParam(q);
         if (!Objects.isNull(fields)) {
             return ProfissionaisWithParamBuilder.execute(profissionais, fields);
         }
+        log.info("Status = fim, ProfissionalService.buscarPorParam().");
         return profissionais.stream().map(ProfissionalRecord::new).toList();
     }
 }
