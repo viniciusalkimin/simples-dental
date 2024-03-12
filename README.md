@@ -45,7 +45,9 @@ Executa todos os testes
 *Gestão de profisisonais*<br>
 `http://localhost:8080/simples-dental-api/v1/profissionais`
 
-
-
 *Gestão de contatos*<br>
 `http://localhost:8080/simples-dental-api/v1/contatos`
+
+
+## UML
+![img.png](img.png)
