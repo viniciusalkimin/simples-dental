@@ -2,7 +2,8 @@ package com.alkimin.simplesdental.infrastructure.contato.controller;
 
 import com.alkimin.simplesdental.application.contato.service.ContatoService;
 import com.alkimin.simplesdental.application.utils.ObjectBuilder;
-import com.alkimin.simplesdental.infrastructure.contato.dto.RespostaContatoRecord;
+import com.alkimin.simplesdental.infrastructure.contato.dto.ContatoAtualizadoRecord;
+import com.alkimin.simplesdental.infrastructure.contato.dto.ContatoCadastradoRecord;
 import com.alkimin.simplesdental.infrastructure.contato.service.impl.ContatoServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class ContatoControllerTest {
 
-    private final String PATH = "/contatos";
+    private final String PATH = "/simples-dental-api/v1/contatos";
 
     @MockBean
     ContatoService contatoService;
@@ -55,7 +56,7 @@ when(contatoService.buscarPorParam(any(),any())).thenReturn(ObjectBuilder.criarC
                         "contato":"11963636464"              
                 }
                 """;
-        when(contatoService.cadastrar(any())).thenReturn(new RespostaContatoRecord(UUID.fromString("550e8400-e29b-41d4-a716-446655440000")));
+        when(contatoService.cadastrar(any())).thenReturn(new ContatoCadastradoRecord("550e8400-e29b-41d4-a716-446655440000"));
         mockMvc.perform(post(PATH).contentType(MediaType.APPLICATION_JSON).content(requestBody)).andExpect(status().isOk());
     }
 
@@ -68,7 +69,7 @@ when(contatoService.buscarPorParam(any(),any())).thenReturn(ObjectBuilder.criarC
                         "contato":"11963636464"              
                 }
                 """;
-        when(contatoService.atualizar(any(), any())).thenReturn(new RespostaContatoRecord(UUID.fromString("550e8400-e29b-41d4-a716-446655440000")));
+        when(contatoService.atualizar(any(), any())).thenReturn(new ContatoAtualizadoRecord("550e8400-e29b-41d4-a716-446655440000"));
         mockMvc.perform(put(PATH.concat("/550e8400-e29b-41d4-a716-446655440000")).contentType(MediaType.APPLICATION_JSON).content(requestBody)).andExpect(status().isOk());
     }
 

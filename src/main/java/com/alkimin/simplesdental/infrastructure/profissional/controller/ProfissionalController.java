@@ -1,10 +1,8 @@
 package com.alkimin.simplesdental.infrastructure.profissional.controller;
 
 import com.alkimin.simplesdental.application.profissional.service.ProfissionalService;
-import com.alkimin.simplesdental.infrastructure.profissional.dto.AtualizarProfissionalRecord;
-import com.alkimin.simplesdental.infrastructure.profissional.dto.CriarProfissionalRecord;
-import com.alkimin.simplesdental.infrastructure.profissional.dto.ProfissionalRecord;
-import com.alkimin.simplesdental.infrastructure.profissional.dto.RespostaProfissionalRecord;
+import com.alkimin.simplesdental.infrastructure.profissional.dto.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/profissionais")
+@RequestMapping("${application.context-path}/profissionais")
 public class ProfissionalController {
 
     private ProfissionalService profissionalService;
@@ -32,12 +30,12 @@ public class ProfissionalController {
     }
 
     @PostMapping
-    public ResponseEntity<RespostaProfissionalRecord> cadastrar(@RequestBody CriarProfissionalRecord criarProfissionalRecord) {
+    public ResponseEntity<ProfissionalCadastradoRecord> cadastrar(@RequestBody @Valid CriarProfissionalRecord criarProfissionalRecord) {
         return ResponseEntity.ok(profissionalService.cadastrar(criarProfissionalRecord));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RespostaProfissionalRecord> atualizar(@PathVariable String id, @RequestBody AtualizarProfissionalRecord atualizarProfissionalRecord) {
+    public ResponseEntity<ProfissionalAtualizadoRecord> atualizar(@PathVariable String id, @RequestBody @Valid AtualizarProfissionalRecord atualizarProfissionalRecord) {
         return ResponseEntity.ok(profissionalService.atualizar(id, atualizarProfissionalRecord));
     }
 

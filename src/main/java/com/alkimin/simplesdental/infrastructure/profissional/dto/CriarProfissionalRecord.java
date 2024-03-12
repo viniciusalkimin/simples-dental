@@ -1,8 +1,10 @@
 package com.alkimin.simplesdental.infrastructure.profissional.dto;
 
 import com.alkimin.simplesdental.domain.profissional.Cargo;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record CriarProfissionalRecord(String nome, Cargo cargo, LocalDate nascimento) {
+public record CriarProfissionalRecord(@NotBlank String nome, @NotNull Cargo cargo, @NotNull LocalDate nascimento) {
 }

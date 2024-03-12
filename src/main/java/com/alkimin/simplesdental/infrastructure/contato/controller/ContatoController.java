@@ -1,10 +1,7 @@
 package com.alkimin.simplesdental.infrastructure.contato.controller;
 
 import com.alkimin.simplesdental.application.contato.service.ContatoService;
-import com.alkimin.simplesdental.infrastructure.contato.dto.AtualizarContatoRecord;
-import com.alkimin.simplesdental.infrastructure.contato.dto.ContatoRecord;
-import com.alkimin.simplesdental.infrastructure.contato.dto.CriarContatoRecord;
-import com.alkimin.simplesdental.infrastructure.contato.dto.RespostaContatoRecord;
+import com.alkimin.simplesdental.infrastructure.contato.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/contatos")
+@RequestMapping("${application.context-path}/contatos")
 public class ContatoController {
 
     private ContatoService contatoService;
@@ -32,12 +29,12 @@ public class ContatoController {
     }
 
     @PostMapping
-    public ResponseEntity<RespostaContatoRecord> cadastrar(@RequestBody CriarContatoRecord criarContatoRecord) {
+    public ResponseEntity<ContatoCadastradoRecord> cadastrar(@RequestBody CriarContatoRecord criarContatoRecord) {
         return ResponseEntity.ok(contatoService.cadastrar(criarContatoRecord));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RespostaContatoRecord> atualizar(@PathVariable String id, @RequestBody AtualizarContatoRecord atualizarContatoRecord) {
+    public ResponseEntity<ContatoAtualizadoRecord> atualizar(@PathVariable String id, @RequestBody AtualizarContatoRecord atualizarContatoRecord) {
         return ResponseEntity.ok(contatoService.atualizar(id, atualizarContatoRecord));
     }
 

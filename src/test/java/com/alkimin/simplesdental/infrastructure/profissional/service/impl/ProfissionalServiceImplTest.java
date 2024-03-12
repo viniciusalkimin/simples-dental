@@ -65,7 +65,7 @@ class ProfissionalServiceImplTest {
 
         verify(profissionalRepository, times(1)).findById(uuid);
         verify(profissionalRepository, times(1)).save(profissionalEntity);
-        assertEquals(uuid, respostaProfissionalAtualizado.profissionalId());
+        assertEquals(uuid.toString(), respostaProfissionalAtualizado.profissionalAtualizadoId());
     }
 
     @Test

@@ -54,16 +54,16 @@ class ContatoServiceImplTest {
 
     @Test
     void deveCadastrarContatoComSucesso() {
-        var profissionalUuid = UUID.fromString("8331daf7-75c1-49d1-8807-e12842022916");
-        var contatoUuid = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
-        var profissional = ObjectBuilder.criarProfissionalEntity(profissionalUuid.toString());
-        var contato = ObjectBuilder.criarContatoEntity(profissional, contatoUuid.toString());
-        when(profissionalRepository.findById(profissionalUuid)).thenReturn(Optional.ofNullable(profissional));
+        var profissionalUuid ="8331daf7-75c1-49d1-8807-e12842022916";
+        var contatoUuid = "550e8400-e29b-41d4-a716-446655440000";
+        var profissional = ObjectBuilder.criarProfissionalEntity(profissionalUuid);
+        var contato = ObjectBuilder.criarContatoEntity(profissional, contatoUuid);
+        when(profissionalRepository.findById(UUID.fromString(profissionalUuid))).thenReturn(Optional.ofNullable(profissional));
         when(contatoRepository.save(any())).thenReturn(contato);
 
-        var contatoResultado = contatoService.cadastrar(new CriarContatoRecord(profissionalUuid.toString(), "celular", "11962626363"));
+        var contatoResultado = contatoService.cadastrar(new CriarContatoRecord(profissionalUuid, "celular", "11962626363"));
 
-        verify(profissionalRepository, times(1)).findById(profissionalUuid);
+        verify(profissionalRepository, times(1)).findById(any());
         verify(contatoRepository, times(1)).save(any());
     }
 

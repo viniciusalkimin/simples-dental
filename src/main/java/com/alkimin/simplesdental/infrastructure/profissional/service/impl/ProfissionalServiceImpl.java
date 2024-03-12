@@ -4,10 +4,7 @@ import com.alkimin.simplesdental.application.profissional.service.ProfissionalSe
 import com.alkimin.simplesdental.application.profissional.utils.ProfissionaisWithParamBuilder;
 import com.alkimin.simplesdental.application.profissional.validation.ProfissionalValidation;
 import com.alkimin.simplesdental.domain.profissional.Profissional;
-import com.alkimin.simplesdental.infrastructure.profissional.dto.AtualizarProfissionalRecord;
-import com.alkimin.simplesdental.infrastructure.profissional.dto.CriarProfissionalRecord;
-import com.alkimin.simplesdental.infrastructure.profissional.dto.ProfissionalRecord;
-import com.alkimin.simplesdental.infrastructure.profissional.dto.RespostaProfissionalRecord;
+import com.alkimin.simplesdental.infrastructure.profissional.dto.*;
 import com.alkimin.simplesdental.infrastructure.profissional.exception.ProfissionalNaoEncontradoException;
 import com.alkimin.simplesdental.infrastructure.profissional.repository.ProfissionalRepository;
 import lombok.AllArgsConstructor;
@@ -42,21 +39,21 @@ public class ProfissionalServiceImpl implements ProfissionalService {
     }
 
     @Override
-    public RespostaProfissionalRecord cadastrar(CriarProfissionalRecord criarProfissionalRecord) {
+    public ProfissionalCadastradoRecord cadastrar(CriarProfissionalRecord criarProfissionalRecord) {
         log.info("Status = início, ProfissionalService.cadastrar().");
 
         var profissionalASalvar = Profissional.builder()
                 .nome(criarProfissionalRecord.nome()).cargo(criarProfissionalRecord.cargo())
                 .nascimento(criarProfissionalRecord.nascimento()).created_date(LocalDate.now())
                 .isAtivo(true).build();
-        var resultParcial = profissionalRepository.save(profissionalASalvar);
+        var profissionalSalvo = profissionalRepository.save(profissionalASalvar);
 
         log.info("Status = fim, ProfissionalService.cadastrar().");
-        return new RespostaProfissionalRecord(resultParcial.getId());
+        return new ProfissionalCadastradoRecord(profissionalSalvo.getId().toString());
     }
 
     @Override
-    public RespostaProfissionalRecord atualizar(String id, AtualizarProfissionalRecord atualizarProfissionalRecord) {
+    public ProfissionalAtualizadoRecord atualizar(String id, AtualizarProfissionalRecord atualizarProfissionalRecord) {
         log.info("Status = início, ProfissionalService.atualizar().");
 
         var profissionalAAtualizar = profissionalRepository.findById(UUID.fromString(id))
@@ -69,7 +66,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
         profissionalRepository.save(profissionalValidado);
 
         log.info("Status = fim, ProfissionalService.atualizar().");
-        return new RespostaProfissionalRecord(profissionalValidado.getId());
+        return new ProfissionalAtualizadoRecord(profissionalValidado.getId().toString());
     }
 
     @Override

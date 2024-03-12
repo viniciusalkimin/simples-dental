@@ -2,7 +2,8 @@ package com.alkimin.simplesdental.infrastructure.profissional.controller;
 
 import com.alkimin.simplesdental.application.profissional.service.ProfissionalService;
 import com.alkimin.simplesdental.application.utils.ObjectBuilder;
-import com.alkimin.simplesdental.infrastructure.profissional.dto.RespostaProfissionalRecord;
+import com.alkimin.simplesdental.infrastructure.profissional.dto.ProfissionalAtualizadoRecord;
+import com.alkimin.simplesdental.infrastructure.profissional.dto.ProfissionalCadastradoRecord;
 import com.alkimin.simplesdental.infrastructure.profissional.service.impl.ProfissionalServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class ProfissionalControllerTest {
 
-    private final String PATH = "/profissionais";
+    private final String PATH = "/simples-dental-api/v1/profissionais";
     @MockBean
     private ProfissionalService profissionalService;
 
@@ -51,7 +52,7 @@ class ProfissionalControllerTest {
                         "nascimento": "1995-11-16"                
                 }
                 """;
-        when(profissionalService.cadastrar(any())).thenReturn(new RespostaProfissionalRecord(UUID.fromString("43e2d264-7f4c-11ee-b962-0242ac120002")));
+        when(profissionalService.cadastrar(any())).thenReturn(new ProfissionalCadastradoRecord("43e2d264-7f4c-11ee-b962-0242ac120002"));
         mockMvc.perform(post(PATH).contentType(MediaType.APPLICATION_JSON).content(requestBody)).andExpect(status().isOk());
     }
 
@@ -64,7 +65,7 @@ class ProfissionalControllerTest {
                         "nascimento": "1995-11-16"                
                 }
                 """;
-        when(profissionalService.atualizar(any(), any())).thenReturn(new RespostaProfissionalRecord(UUID.fromString("43e2d264-7f4c-11ee-b962-0242ac120002")));
+        when(profissionalService.atualizar(any(), any())).thenReturn(new ProfissionalAtualizadoRecord("43e2d264-7f4c-11ee-b962-0242ac120002"));
         mockMvc.perform(put(PATH.concat("/43e2d264-7f4c-11ee-b962-0242ac120002")).contentType(MediaType.APPLICATION_JSON).content(requestBody)).andExpect(status().isOk());
     }
 

@@ -3,10 +3,7 @@ package com.alkimin.simplesdental.infrastructure.contato.service.impl;
 import com.alkimin.simplesdental.application.contato.service.ContatoService;
 import com.alkimin.simplesdental.application.contato.utils.ContatosWithParamBuilder;
 import com.alkimin.simplesdental.domain.contato.Contato;
-import com.alkimin.simplesdental.infrastructure.contato.dto.AtualizarContatoRecord;
-import com.alkimin.simplesdental.infrastructure.contato.dto.ContatoRecord;
-import com.alkimin.simplesdental.infrastructure.contato.dto.CriarContatoRecord;
-import com.alkimin.simplesdental.infrastructure.contato.dto.RespostaContatoRecord;
+import com.alkimin.simplesdental.infrastructure.contato.dto.*;
 import com.alkimin.simplesdental.infrastructure.contato.exception.ContatoNaoEncontradoException;
 import com.alkimin.simplesdental.infrastructure.contato.repository.ContatoRepository;
 import com.alkimin.simplesdental.infrastructure.profissional.exception.ProfissionalNaoEncontradoException;
@@ -41,7 +38,7 @@ public class ContatoServiceImpl implements ContatoService {
     }
 
     @Override
-    public RespostaContatoRecord cadastrar(CriarContatoRecord criarContatoRecord) {
+    public ContatoCadastradoRecord cadastrar(CriarContatoRecord criarContatoRecord) {
         log.info("Status = início, ContatoService.cadastrar().");
 
         var profissional = profissionalRepository.findById(UUID.fromString(criarContatoRecord.profissionalId()))
@@ -54,14 +51,15 @@ public class ContatoServiceImpl implements ContatoService {
                 .nome(criarContatoRecord.nome())
                 .contato(criarContatoRecord.contato())
                 .created_date(LocalDate.now()).build();
-        contatoRepository.save(contatoASalvar);
+
+        var contatoSalvo = contatoRepository.save(contatoASalvar);
 
         log.info("Status = fim, ContatoService.cadastrar().");
-        return new RespostaContatoRecord(contatoASalvar.getId());
+        return new ContatoCadastradoRecord(contatoSalvo.getId().toString());
     }
 
     @Override
-    public RespostaContatoRecord atualizar(String id, AtualizarContatoRecord atualizarContatoRecord) {
+    public ContatoAtualizadoRecord atualizar(String id, AtualizarContatoRecord atualizarContatoRecord) {
         log.info("Status = início, ContatoService.atualizar().");
 
         var contatoAAtualizar = contatoRepository.findById(UUID.fromString(id))
@@ -77,7 +75,7 @@ public class ContatoServiceImpl implements ContatoService {
         }
         contatoRepository.save(contatoAAtualizar);
         log.info("Status = fim, ContatoService.atualizar().");
-        return new RespostaContatoRecord(contatoAAtualizar.getId());
+        return new ContatoAtualizadoRecord(contatoAAtualizar.getId().toString());
     }
 
     @Override
