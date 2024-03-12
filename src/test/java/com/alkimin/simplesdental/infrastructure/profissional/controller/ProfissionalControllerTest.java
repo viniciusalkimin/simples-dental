@@ -1,13 +1,10 @@
-package com.alkimin.simplesdental.infrastructure.profissional;
+package com.alkimin.simplesdental.infrastructure.profissional.controller;
 
 import com.alkimin.simplesdental.application.profissional.service.ProfissionalService;
-
-
 import com.alkimin.simplesdental.application.utils.ObjectBuilder;
 import com.alkimin.simplesdental.infrastructure.profissional.dto.RespostaProfissionalRecord;
 import com.alkimin.simplesdental.infrastructure.profissional.service.impl.ProfissionalServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.net.http.HttpRequest;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

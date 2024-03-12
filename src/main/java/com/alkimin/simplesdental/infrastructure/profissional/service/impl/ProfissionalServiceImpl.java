@@ -26,6 +26,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 
     private ProfissionalRepository profissionalRepository;
 
+
     @Override
     public ProfissionalRecord buscarPorId(String id) {
         log.info("Status = início, ProfissionalService.buscarPorId().");
@@ -48,10 +49,10 @@ public class ProfissionalServiceImpl implements ProfissionalService {
                 .nome(criarProfissionalRecord.nome()).cargo(criarProfissionalRecord.cargo())
                 .nascimento(criarProfissionalRecord.nascimento()).created_date(LocalDate.now())
                 .isAtivo(true).build();
-        var profissionalSalvo = profissionalRepository.save(profissionalASalvar);
+        var resultParcial = profissionalRepository.save(profissionalASalvar);
 
         log.info("Status = fim, ProfissionalService.cadastrar().");
-        return new RespostaProfissionalRecord(profissionalSalvo.getId());
+        return new RespostaProfissionalRecord(resultParcial.getId());
     }
 
     @Override
@@ -65,10 +66,10 @@ public class ProfissionalServiceImpl implements ProfissionalService {
                 });
 
         var profissionalValidado = ProfissionalValidation.validarAtualizacao(atualizarProfissionalRecord, profissionalAAtualizar );
-        var profissionalSalvo = profissionalRepository.save(profissionalValidado);
+        profissionalRepository.save(profissionalValidado);
 
         log.info("Status = fim, ProfissionalService.atualizar().");
-        return new RespostaProfissionalRecord(profissionalSalvo.getId());
+        return new RespostaProfissionalRecord(profissionalValidado.getId());
     }
 
     @Override
@@ -91,6 +92,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
         log.info("Status = início, ProfissionalService.buscarPorParam().");
         var profissionais = profissionalRepository.findByParam(q);
         if (!Objects.isNull(fields)) {
+            log.info("Status = fim, ProfissionalService.buscarPorParam().ProfissionaisWithParamBuilder.execute()");
             return ProfissionaisWithParamBuilder.execute(profissionais, fields);
         }
         log.info("Status = fim, ProfissionalService.buscarPorParam().");

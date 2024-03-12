@@ -11,6 +11,7 @@ import java.util.List;
 public interface ProfissionalService {
 
     ProfissionalRecord buscarPorId(String id);
+
     RespostaProfissionalRecord cadastrar(CriarProfissionalRecord criarProfissionalRecord);
 
     RespostaProfissionalRecord atualizar(String id,AtualizarProfissionalRecord atualizarProfissionalRecord);

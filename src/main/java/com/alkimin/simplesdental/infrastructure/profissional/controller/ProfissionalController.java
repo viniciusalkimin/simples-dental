@@ -1,4 +1,4 @@
-package com.alkimin.simplesdental.infrastructure.profissional;
+package com.alkimin.simplesdental.infrastructure.profissional.controller;
 
 import com.alkimin.simplesdental.application.profissional.service.ProfissionalService;
 import com.alkimin.simplesdental.infrastructure.profissional.dto.AtualizarProfissionalRecord;
@@ -27,7 +27,8 @@ public class ProfissionalController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProfissionalRecord> buscarPorId(@PathVariable String id) {
-        return ResponseEntity.ok(profissionalService.buscarPorId(id));
+        var resp = profissionalService.buscarPorId(id);
+        return ResponseEntity.ok(resp);
     }
 
     @PostMapping

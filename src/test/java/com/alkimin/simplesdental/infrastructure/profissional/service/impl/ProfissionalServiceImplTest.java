@@ -30,8 +30,11 @@ class ProfissionalServiceImplTest {
     void deveBuscarProfissionalPorIdComSucesso() {
         var uuid = UUID.fromString("8331daf7-75c1-49d1-8807-e12842022916");
         when(profissionalRepository.findById(uuid)).thenReturn(Optional.ofNullable(ObjectBuilder.criarProfissionalEntity("8331daf7-75c1-49d1-8807-e12842022916")));
+
         var profissional = profissionalService.buscarPorId(uuid.toString());
+
         assertEquals(uuid, profissional.id());
+        verify(profissionalRepository, times(1)).findById(uuid);
     }
 
     @Test
@@ -44,8 +47,9 @@ class ProfissionalServiceImplTest {
         var profissionalEntity = ObjectBuilder.criarProfissionalEntity("43e2d264-7f4c-11ee-b962-0242ac120002");
         when(profissionalRepository.save(any())).thenReturn(profissionalEntity);
         var profissionalASalvar = ObjectBuilder.criarCriarProfissionalRecord();
+
         var profissionalCadastrado = profissionalService.cadastrar(profissionalASalvar);
-        assertNotNull(profissionalCadastrado.profissionalId());
+
         verify(profissionalRepository, times(1)).save(any());
     }
 
@@ -56,7 +60,9 @@ class ProfissionalServiceImplTest {
         var profissionalEntity = ObjectBuilder.criarProfissionalEntity(uuid.toString());
         when(profissionalRepository.findById(any())).thenReturn(Optional.of(profissionalEntity));
         when(profissionalRepository.save(any())).thenReturn(profissionalEntity);
+
         var respostaProfissionalAtualizado = profissionalService.atualizar(uuid.toString(), dadosAtualizar);
+
         verify(profissionalRepository, times(1)).findById(uuid);
         verify(profissionalRepository, times(1)).save(profissionalEntity);
         assertEquals(uuid, respostaProfissionalAtualizado.profissionalId());
@@ -70,11 +76,13 @@ class ProfissionalServiceImplTest {
     }
 
     @Test
-    void deveDeletarUmUsuarioComSucesso() {
+    void deveDeletarUsuarioComSucesso() {
         var uuid = "8331daf7-75c1-49d1-8807-e12842022916";
         var profissionalEntity = ObjectBuilder.criarProfissionalEntity(uuid);
         when(profissionalRepository.findById(any())).thenReturn(Optional.of(profissionalEntity));
+
         profissionalService.deletar(uuid);
+
         verify(profissionalRepository, times(1)).findById(UUID.fromString(uuid));
         verify(profissionalRepository, times(1)).save(profissionalEntity);
     }
@@ -85,13 +93,38 @@ class ProfissionalServiceImplTest {
     }
 
     @Test
-    void deveBuscarPorParamComSucesso() {
+    void deveBuscarProfissionalPorParamExibirNomeCargoComSucesso() {
         var uuid = "8331daf7-75c1-49d1-8807-e12842022916";
-        var nome = "Vinicius";
+        var q = "Vinicius";
+        var field1 = "nome";
+        var field2 = "cargo";
+        var fields = List.of(field1, field2);
+        var valorEsperado = "[{nome=Vinicius Alkimin, cargo=DESENVOLVEDOR}]";
         var profissionalEntity = ObjectBuilder.criarProfissionalEntity(uuid);
-        when(profissionalRepository.findByParam(nome)).thenReturn(List.of(profissionalEntity));
-        profissionalService.buscarPorParam(nome, any());
-        verify(profissionalRepository, times(1)).findByParam(nome);
+        when(profissionalRepository.findByParam(q)).thenReturn(List.of(profissionalEntity));
+
+        var result = profissionalService.buscarPorParam(q, fields);
+
+        verify(profissionalRepository, times(1)).findByParam(q);
+        assertEquals(valorEsperado, result.toString());
+    }
+
+    @Test
+    void deveBuscarProfissionalPorParamExibirNomeCargoNascimentoComSucesso() {
+        var uuid = "8331daf7-75c1-49d1-8807-e12842022916";
+        var q = "Vinicius";
+        var field1 = "nome";
+        var field2 = "cargo";
+        var field3 = "nascimento";
+        var fields = List.of(field1, field2, field3);
+        var valorEsperado = "[{nascimento=1995-11-16, nome=Vinicius Alkimin, cargo=DESENVOLVEDOR}]";
+        var profissionalEntity = ObjectBuilder.criarProfissionalEntity(uuid);
+        when(profissionalRepository.findByParam(q)).thenReturn(List.of(profissionalEntity));
+
+        var result = profissionalService.buscarPorParam(q, fields);
+
+        verify(profissionalRepository, times(1)).findByParam(q);
+        assertEquals(valorEsperado, result.toString());
     }
 
 }
