@@ -49,5 +49,8 @@ Executa todos os testes
 `http://localhost:8080/simples-dental-api/v1/contatos`
 
 
+## Coverage
+![simples-dental-jacoco](simples-dental-jacoco.PNG)
+
 ## UML
 ![img.png](img.png)
